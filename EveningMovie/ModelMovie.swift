@@ -10,5 +10,5 @@ import UIKit
 
 struct Movie {
     let name: String
-    let image: String
+    let image: UIImage
 }
