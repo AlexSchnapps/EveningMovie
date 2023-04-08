@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MoviePreview: UICollectionViewCell {
+class MoviePreviewCell: UICollectionViewCell {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
