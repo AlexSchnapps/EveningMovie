@@ -13,9 +13,12 @@ class MoviePreviewCell: UICollectionViewCell {
         let imageView = UIImageView()
         return imageView
     }()
+
     
-    func config(image: UIImage) {
-        imageView.image = image
+    
+    func config(item: Movie) {
+        imageView.image = item.image
+        
         addSubviews()
         addConstraints()
     }
@@ -28,5 +31,6 @@ class MoviePreviewCell: UICollectionViewCell {
         imageView.snp.makeConstraints {
             $0.width.height.equalTo(50)
         }
+        
     }
 }

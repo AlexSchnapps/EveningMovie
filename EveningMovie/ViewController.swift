@@ -14,20 +14,37 @@ class ViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         return collectionView
     }()
     
-    let cellReuseIdentifier = "MoviePreviewCell"
+    private var mockArray: [Movie] = []
+    
+    
+    private let cellReuseIdentifier = "MoviePreviewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        for _ in 0..<10 {
+            addMockArray()
+        }
         createCollectionView()
+        
     }
     
-    func createCollectionView() {
+    private func addMockArray() {
+        mockArray.append(
+            Movie(
+                name: "John Wick: Chapter 4",
+                image: #imageLiteral(resourceName: "JohnWick"),
+                rating: 7.8,
+                annotation: "Джон Уик находит способ одержать победу над Правлением кланов. Но прежде ему предстоит сразиться с новым врагом и его могущественными союзниками")
+        )
+    }
+    
+    private func createCollectionView() {
         myCollectionView.register(MoviePreviewCell.self, forCellWithReuseIdentifier: "MoviePreviewCell")
         myCollectionView.delegate = self
         myCollectionView.dataSource = self
@@ -38,12 +55,12 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        2
+        mockArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MoviePreviewCell", for: indexPath) as? MoviePreviewCell else { return UICollectionViewCell() }
-        cell.config(image: UIImage(systemName: "info.circle")!)
+        cell.config(item: mockArray[indexPath.row])
         return cell
     }
     
