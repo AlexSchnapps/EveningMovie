@@ -13,8 +13,7 @@ class ViewController: UIViewController {
     private lazy var myCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5)
+        layout.minimumLineSpacing = 10
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         return collectionView
     }()
@@ -30,6 +29,7 @@ class ViewController: UIViewController {
         for _ in 0..<10 {
             addMockArray()
         }
+        //addMockArray()
         createCollectionView()
         
     }
@@ -61,8 +61,16 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MoviePreviewCell", for: indexPath) as? MoviePreviewCell else { return UICollectionViewCell() }
         cell.config(item: mockArray[indexPath.row])
+        cell.layer.shadowColor = UIColor.lightGray.cgColor
+        cell.layer.shadowOffset = CGSize(width:0,height: 2.0)
+        cell.layer.shadowRadius = 2.0
+        cell.layer.shadowOpacity = 1.0
+        cell.layer.masksToBounds = false;
+        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
         return cell
     }
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: view.frame.width - 30, height: 200)
+    }
     
 }
