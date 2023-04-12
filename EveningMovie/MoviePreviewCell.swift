@@ -16,10 +16,29 @@ class MoviePreviewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-
-    private let nameLabel = UILabel()
-    private let ratingLabel = UILabel()
-    private let annotetionLabel = UILabel()
+    
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        return label
+    }()
+    private lazy var ratingLabel: UILabel = {
+        let rating = UILabel()
+        rating.textAlignment = .center
+        rating.textColor = .black
+        rating.backgroundColor = .white
+        rating.layer.masksToBounds = true
+        rating.layer.cornerRadius = 15
+        return rating
+    }()
+    private lazy var annotetionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .semibold)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        return label
+    }()
     
     func config(item: Movie) {
         contentView.backgroundColor = .lightGray
@@ -27,16 +46,7 @@ class MoviePreviewCell: UICollectionViewCell {
         imageView.image = item.image
         nameLabel.text = item.name
         ratingLabel.text = "\(item.rating)"
-        ratingLabel.textAlignment = .center
-        ratingLabel.textColor = .black
-        ratingLabel.backgroundColor = .white
-        ratingLabel.layer.masksToBounds = true
-        ratingLabel.layer.cornerRadius = 15
         annotetionLabel.text = item.annotation
-        annotetionLabel.font = .systemFont(ofSize: 12, weight: .light)
-        nameLabel.textAlignment = .left
-        nameLabel.font = .systemFont(ofSize: 13, weight: .semibold)
-        annotetionLabel.numberOfLines = 0
         addSubviews()
         addConstraints()
     }
@@ -50,25 +60,22 @@ class MoviePreviewCell: UICollectionViewCell {
     
     private func addConstraints() {
         imageView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(5)
-            $0.top.equalToSuperview().inset(0)
-            $0.bottom.equalToSuperview().inset(0)
+            $0.leading.top.bottom.equalToSuperview().inset(10)
+            $0.width.equalTo((contentView.bounds.height - 20) * 0.675)
         }
         nameLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(imageView.snp.trailing).offset(20)
-            $0.trailing.equalToSuperview().inset(10)
-            //$0.width.equalTo(100)
+            $0.top.trailing.equalToSuperview().inset(10)
+            $0.leading.equalTo(imageView.snp.trailing).offset(10)
         }
         annotetionLabel.snp.makeConstraints {
-            $0.leading.equalTo(imageView.snp.trailing).offset(10)
-            $0.top.equalTo(nameLabel.snp.bottom)
+            $0.top.equalTo(nameLabel.snp.bottom).offset(10)
+            $0.leading.equalTo(nameLabel.snp.leading)
             $0.trailing.equalToSuperview().inset(10)
-            $0.bottom.equalToSuperview().inset(10)
+            $0.bottom.lessThanOrEqualToSuperview().inset(10)
         }
         ratingLabel.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.top).offset(165)
-            $0.leading.equalTo(imageView.snp.leading).offset(25)
+            $0.leading.equalTo(imageView.snp.leading).inset(5)
+            $0.bottom.equalTo(imageView.snp.bottom).inset(5)
             $0.width.height.equalTo(30)
         }
     }
