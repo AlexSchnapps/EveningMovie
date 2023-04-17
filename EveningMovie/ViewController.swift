@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(url)
         for _ in 0..<10 {
             addMockArray()
         }
