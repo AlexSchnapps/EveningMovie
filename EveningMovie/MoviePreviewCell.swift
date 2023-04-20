@@ -40,13 +40,13 @@ class MoviePreviewCell: UICollectionViewCell {
         return label
     }()
     
-    func config(item: Movie) {
+    func config(item: Post) {
         contentView.backgroundColor = .lightGray
         contentView.layer.cornerRadius = 10
         imageView.image = item.image
-        nameLabel.text = item.name
+        nameLabel.text = item.title
         ratingLabel.text = "\(item.rating)"
-        annotetionLabel.text = item.annotation
+        annotetionLabel.text = item.description
         addSubviews()
         addConstraints()
     }
