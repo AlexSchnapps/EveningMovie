@@ -11,6 +11,7 @@ import SnapKit
 class MoviePreviewCell: UICollectionViewCell {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(named: "AppIcon")
         imageView.layer.cornerRadius = 10
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -43,7 +44,7 @@ class MoviePreviewCell: UICollectionViewCell {
     func config(item: Post) {
         contentView.backgroundColor = .lightGray
         contentView.layer.cornerRadius = 10
-        imageView.image = item.image
+        imageView.downloadImage(from: item.image)
         nameLabel.text = item.title
         ratingLabel.text = "\(item.rating)"
         annotetionLabel.text = item.description
