@@ -7,11 +7,16 @@
 
 import Foundation
 
-enum ObtainPostResult {
-    case success(posts: [Post])
-    case failure(error: Error)
+enum NetworkError: Error {
+    case custom(String)
+    
+    var localizedDescription: String {
+        switch self {
+        case .custom(let message):
+            return (message)
+        }
+    }
 }
-
 class NetworkManager {
     
     let sessionConfig = URLSessionConfiguration.default
@@ -21,34 +26,29 @@ class NetworkManager {
         "X-RapidAPI-Key": "86dc3f71bdmshc0432b056e31bfep14ffbfjsnd8eba6fe5afd"
     ]
     
-    func obtainPost(completion: @escaping (ObtainPostResult) -> Void ) {
+    func obtainPost(completion: @escaping (Result<[Post], NetworkError>) -> ()) {
         guard let url = URL(string: "https://imdb-top-100-movies.p.rapidapi.com/") else {
             return
         }
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = headers
-        let task = session.dataTask(with: request) { [weak self](data, response, error) in
-            var result: ObtainPostResult
-            defer {
-                DispatchQueue.main.async {
-                    completion(result)
+        let task = session.dataTask(with: request) { [weak self] (data, response, error) in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(.custom(error.localizedDescription)))
                 }
-            }
-            
-            guard let strongSelf = self else {
-                result = .failure(error: error!)
-                return
-            }
-            
-            if error == nil, let parsData = data {
-                guard let posts = try?
-                        strongSelf.decoder.decode([Post].self, from: parsData) else {
-                    result = .failure(error: error!)
-                    return
+                
+                guard let data = data else { return }
+                do {
+                    //let decoder = JSONDecoder()
+                    //decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let decodedMovies = try self.decoder.decode([Post].self, from: data)
+                    completion(.success(decodedMovies))
+                    
+                } catch {
+                    completion(.failure(.custom(error.localizedDescription)))
                 }
-                result = .success(posts: posts)
-            } else {
-                result = .failure(error: error!)
             }
             
         }
