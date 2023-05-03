@@ -72,5 +72,10 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         CGSize(width: view.frame.width - 30, height: 200)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let descriptionMovieVC = DescriptionMovieViewController()
+        self.navigationController?.pushViewController(descriptionMovieVC, animated: true)
+    }
+    
 }
 
