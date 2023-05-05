@@ -59,17 +59,19 @@ class DescriptionMovieViewController: UIViewController {
     
     private func addConstraints() {
         descriptionStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(10)
+            //$0.edges.equalToSuperview().inset(10)
+            $0.top.leading.equalToSuperview().inset(10)
+            $0.trailing.bottom.equalToSuperview().offset(10)
             $0.width.equalTo(view.bounds.width - 20)
         }
         descriptionImageView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.top.equalToSuperview().inset(10)
+            $0.height.equalTo(descriptionImageView.snp.width)
         }
         movieTiteleLabel.snp.makeConstraints {
             $0.top.equalTo(descriptionImageView.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().inset(10)
-            $0.bottom.lessThanOrEqualToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview().inset(10)
+            //$0.bottom.lessThanOrEqualToSuperview().inset(10)
         }
     }
     
