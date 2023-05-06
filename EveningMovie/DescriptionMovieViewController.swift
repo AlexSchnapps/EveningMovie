@@ -10,10 +10,12 @@ import SnapKit
 
 class DescriptionMovieViewController: UIViewController {
     
-    private lazy var descriptionScroll: UIScrollView = {
+    private let movieID: String
+    private let networkManager = NetworkManager()
+    
+    private lazy var descriptionScrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView = UIScrollView(frame: self.view.bounds)
-        scrollView.addSubview(descriptionStackView)
         scrollView.contentSize = self.descriptionStackView.bounds.size
         return scrollView
     }()
@@ -31,16 +33,14 @@ class DescriptionMovieViewController: UIViewController {
     
     private lazy var descriptionImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "AppIcon")
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private lazy var movieTiteleLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         var label = UILabel()
-        label.text = "safafnofqofof ofnoifoqifoqifnoqin oqifnioeqfnqoifnoqfn ufucucuciyfiugugou ufigougogiugigigg giugugogouhouhougu uigiugiugiug hiugiugiugiu hiugiugiugiugguig iugiuguigiugiugiug"
         label.textAlignment = .center
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 14, weight: .semibold)
@@ -50,11 +50,19 @@ class DescriptionMovieViewController: UIViewController {
         return label
     }()
     
+    init(movieID: String) {
+        self.movieID = movieID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        getMovieDescription()
         settingsVC()
-        addSubviews()
-        addConstraints()
     }
     
     private func addConstraints() {
@@ -68,7 +76,7 @@ class DescriptionMovieViewController: UIViewController {
             $0.top.equalToSuperview().inset(10)
             $0.height.equalTo(descriptionImageView.snp.width)
         }
-        movieTiteleLabel.snp.makeConstraints {
+        descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(descriptionImageView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(10)
             //$0.bottom.lessThanOrEqualToSuperview().inset(10)
@@ -76,13 +84,40 @@ class DescriptionMovieViewController: UIViewController {
     }
     
     private func addSubviews() {
+        view.addSubview(descriptionScrollView)
+        descriptionScrollView.addSubview(descriptionStackView)
         descriptionStackView.addArrangedSubview(descriptionImageView)
-        descriptionStackView.addArrangedSubview(movieTiteleLabel)
-        view.addSubview(descriptionScroll)
+        descriptionStackView.addArrangedSubview(descriptionLabel)
     }
     
     private func settingsVC() {
         self.title = "Description"
         self.view.backgroundColor = .white
     }
+    
+    private func getMovieDescription() {
+        networkManager.obtainPostDescription(id: movieID) { [weak self] (result) in
+            switch result {
+            case .success(let post) :
+                print(post)
+                DispatchQueue.main.async {
+                    self?.config(item: post)
+                }
+            case .failure(let error) :
+                print("Error: \(error.localizedDescription)")
+                
+            }
+        }
+    }
+    
+    private func config(item: Post) {
+        descriptionImageView.downloadImage(from: item.image)
+        //nameLabel.text = item.title
+        //ratingLabel.text = "\(item.rating)"
+        descriptionLabel.text = item.description
+        
+        addSubviews()
+        addConstraints()
+    }
+    
 }

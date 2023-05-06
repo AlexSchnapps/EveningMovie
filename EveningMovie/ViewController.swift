@@ -26,10 +26,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.title = "TOP 100"
         createCollectionView()
-        createNetworkManager()
+        getMovies()
     }
     
-    private func createNetworkManager() {
+    private func getMovies() {
         networkManager.obtainPost { [weak self] (result) in
             switch result {
             case .success(let posts) :
@@ -74,7 +74,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let descriptionMovieVC = DescriptionMovieViewController()
+        let descriptionMovieVC = DescriptionMovieViewController(movieID: dataPosts[indexPath.row].id)
         self.navigationController?.pushViewController(descriptionMovieVC, animated: true)
     }
     

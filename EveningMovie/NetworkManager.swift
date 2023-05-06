@@ -54,5 +54,35 @@ class NetworkManager {
         }
         task.resume()
     }
+    
+    func obtainPostDescription(id: String, completion: @escaping (Result<Post, NetworkError>) -> ()) {
+        guard let url = URL(string: "https://imdb-top-100-movies.p.rapidapi.com/\(id)") else {
+            return
+        }
+        var request = URLRequest(url: url)
+        request.allHTTPHeaderFields = headers
+        let task = session.dataTask(with: request) { [weak self] (data, response, error) in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(.custom(error.localizedDescription)))
+                }
+                
+                guard let data = data else { return }
+                do {
+                    //let decoder = JSONDecoder()
+                    //decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let decodedMovies = try self.decoder.decode(Post.self, from: data)
+                    completion(.success(decodedMovies))
+                    
+                } catch {
+                    completion(.failure(.custom(error.localizedDescription)))
+                }
+            }
+            
+        }
+        task.resume()
+    }
+    
 }
 

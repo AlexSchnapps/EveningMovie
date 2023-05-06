@@ -17,7 +17,6 @@ class MoviePreviewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -48,6 +47,7 @@ class MoviePreviewCell: UICollectionViewCell {
         nameLabel.text = item.title
         ratingLabel.text = "\(item.rating)"
         annotetionLabel.text = item.description
+        
         addSubviews()
         addConstraints()
     }
