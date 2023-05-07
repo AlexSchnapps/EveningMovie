@@ -5,7 +5,7 @@
 //  Created by Alex Schnapps on 17.04.2023.
 //
 
-struct Post: Codable {
+struct Movie: Codable {
     let title: String
     let rating: String
     let id: String
@@ -13,5 +13,4 @@ struct Post: Codable {
     let description: String
     
 }
-
 

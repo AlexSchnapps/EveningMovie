@@ -40,7 +40,7 @@ class MoviePreviewCell: UICollectionViewCell {
         return label
     }()
     
-    func config(item: Post) {
+    func config(item: Movie) {
         contentView.backgroundColor = .lightGray
         contentView.layer.cornerRadius = 10
         imageView.downloadImage(from: item.image)

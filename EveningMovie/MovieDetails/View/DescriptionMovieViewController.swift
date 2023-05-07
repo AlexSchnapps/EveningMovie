@@ -96,7 +96,9 @@ class DescriptionMovieViewController: UIViewController {
     }
     
     private func getMovieDescription() {
-        networkManager.obtainPostDescription(id: movieID) { [weak self] (result) in
+        networkManager.request(
+            endPoint: .movieDescription(movieID)
+        ) { [weak self] (result: Result<Movie, NetworkError>) in
             switch result {
             case .success(let post) :
                 print(post)
@@ -110,7 +112,7 @@ class DescriptionMovieViewController: UIViewController {
         }
     }
     
-    private func config(item: Post) {
+    private func config(item: Movie) {
         descriptionImageView.downloadImage(from: item.image)
         //nameLabel.text = item.title
         //ratingLabel.text = "\(item.rating)"
