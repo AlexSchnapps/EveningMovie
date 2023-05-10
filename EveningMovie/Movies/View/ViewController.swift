@@ -79,8 +79,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let descriptionMovieVC = DescriptionMovieViewController(movieID: movies[indexPath.row].id)
-        self.navigationController?.pushViewController(descriptionMovieVC, animated: true)
+        let movieDetails = MovieDetails(movieID: movies[indexPath.row].id)
+        self.navigationController?.pushViewController(movieDetails, animated: true)
     }
     
 }

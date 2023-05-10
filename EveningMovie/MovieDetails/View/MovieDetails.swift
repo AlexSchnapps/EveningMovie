@@ -8,19 +8,19 @@
 import UIKit
 import SnapKit
 
-class DescriptionMovieViewController: UIViewController {
+class MovieDetails: UIViewController {
     
     private let movieID: String
     private let networkManager = NetworkManager()
     
-    private lazy var descriptionScrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView = UIScrollView(frame: self.view.bounds)
-        scrollView.contentSize = self.descriptionStackView.bounds.size
+        scrollView.contentSize = self.stackView.bounds.size
         return scrollView
     }()
     
-    private lazy var descriptionStackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.backgroundColor = .lightGray
         stackView.axis = .vertical
@@ -31,7 +31,7 @@ class DescriptionMovieViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var descriptionImageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 10
@@ -39,7 +39,7 @@ class DescriptionMovieViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var descriptionLabel: UILabel = {
+    private lazy var label: UILabel = {
         var label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -66,28 +66,28 @@ class DescriptionMovieViewController: UIViewController {
     }
     
     private func addConstraints() {
-        descriptionStackView.snp.makeConstraints {
+        stackView.snp.makeConstraints {
             //$0.edges.equalToSuperview().inset(10)
             $0.top.leading.equalToSuperview().inset(10)
             $0.trailing.bottom.equalToSuperview().offset(10)
             $0.width.equalTo(view.bounds.width - 20)
         }
-        descriptionImageView.snp.makeConstraints {
+        imageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(10)
-            $0.height.equalTo(descriptionImageView.snp.width)
+            $0.height.equalTo(imageView.snp.width)
         }
-        descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionImageView.snp.bottom).offset(10)
+        label.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(10)
             //$0.bottom.lessThanOrEqualToSuperview().inset(10)
         }
     }
     
     private func addSubviews() {
-        view.addSubview(descriptionScrollView)
-        descriptionScrollView.addSubview(descriptionStackView)
-        descriptionStackView.addArrangedSubview(descriptionImageView)
-        descriptionStackView.addArrangedSubview(descriptionLabel)
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(label)
     }
     
     private func settingsVC() {
@@ -113,10 +113,10 @@ class DescriptionMovieViewController: UIViewController {
     }
     
     private func config(item: Movie) {
-        descriptionImageView.downloadImage(from: item.image)
+        imageView.downloadImage(from: item.image)
         //nameLabel.text = item.title
         //ratingLabel.text = "\(item.rating)"
-        descriptionLabel.text = item.description
+        label.text = item.description
         
         addSubviews()
         addConstraints()
