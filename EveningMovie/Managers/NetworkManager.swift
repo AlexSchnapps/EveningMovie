@@ -31,7 +31,7 @@ enum Hosts {
             return id
         case .host:
             return "https://imdb-top-100-movies.p.rapidapi.com/"
-
+            
         }
     }
 }
@@ -42,7 +42,8 @@ class NetworkManager {
     let session = URLSession.shared
     let decoder = JSONDecoder()
     let headers = [
-        "X-RapidAPI-Key": "86dc3f71bdmshc0432b056e31bfep14ffbfjsnd8eba6fe5afd"
+        "X-RapidAPI-Key":
+            "86dc3f71bdmshc0432b056e31bfep14ffbfjsnd8eba6fe5afd"
     ]
     
     func request<T: Codable>(
@@ -63,8 +64,7 @@ class NetworkManager {
                 
                 guard let data = data else { return }
                 do {
-                    //let decoder = JSONDecoder()
-                    //decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    self.decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let decodedData = try self.decoder.decode(T.self, from: data)
                     completion(.success(decodedData))
                     

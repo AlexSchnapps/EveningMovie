@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MoviePreviewCell: UICollectionViewCell {
+class MoviePreviewCell: UICollectionViewCell, ClassIdentifiable {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppIcon")

@@ -8,10 +8,10 @@
 import UIKit
 import SnapKit
 
-class MovieDetails: UIViewController {
+class MovieDetailsViewController: UIViewController {
     
     private let movieID: String
-    private let networkManager = NetworkManager()
+    private var presenter: DetailPresenterProtocol!
     
     private lazy var scrollView: UIScrollView = {
         var scrollView = UIScrollView()
@@ -61,8 +61,10 @@ class MovieDetails: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getMovieDescription()
+        presenter = DetailPresenter(view: self)
+        presenter.getMovieDescription(movieID: movieID)
         settingsVC()
+        
     }
     
     private func addConstraints() {
@@ -91,28 +93,13 @@ class MovieDetails: UIViewController {
     }
     
     private func settingsVC() {
-        self.title = "Description"
+        self.title = Constants.titleDetails
         self.view.backgroundColor = .white
     }
-    
-    private func getMovieDescription() {
-        networkManager.request(
-            endPoint: .movieDescription(movieID)
-        ) { [weak self] (result: Result<Movie, NetworkError>) in
-            switch result {
-            case .success(let post) :
-                print(post)
-                DispatchQueue.main.async {
-                    self?.config(item: post)
-                }
-            case .failure(let error) :
-                print("Error: \(error.localizedDescription)")
-                
-            }
-        }
-    }
-    
-    private func config(item: Movie) {
+}
+
+extension MovieDetailsViewController: MovieDetailsView {
+    func updateView(item: Movie) {
         imageView.downloadImage(from: item.image)
         //nameLabel.text = item.title
         //ratingLabel.text = "\(item.rating)"
@@ -121,5 +108,5 @@ class MovieDetails: UIViewController {
         addSubviews()
         addConstraints()
     }
-    
 }
+

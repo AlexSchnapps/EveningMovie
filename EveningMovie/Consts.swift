@@ -6,5 +6,6 @@
 //
 
 enum Constants {
-    static let title = "TOP100"
+    static let titleMovies = "TOP 100"
+    static let titleDetails = "Description"
 }

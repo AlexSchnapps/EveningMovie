@@ -8,25 +8,39 @@
 import UIKit
 import SnapKit
 
-class ViewController: UIViewController {
+class MoviesViewController: UIViewController {
     
-    private lazy var myCollectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 10
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        let collectionView = UICollectionView(
+            frame: view.bounds,
+            collectionViewLayout: layout
+        )
+        collectionView.register(cellType: MoviePreviewCell.self)
+        collectionView.delegate = self
+        collectionView.dataSource = self
         return collectionView
     }()
     
     private var movies = [Movie]()
     private let networkManager = NetworkManager()
-    private let cellReuseIdentifier = "MoviePreviewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "TOP 100"
-        createCollectionView()
+        self.title = Constants.titleMovies
+        addSubViews()
         getMovies()
+    }
+    
+    private func cellConfig(cell: UICollectionViewCell) {
+        cell.layer.shadowColor = UIColor.lightGray.cgColor
+        cell.layer.shadowOffset = CGSize(width:0,height: 2.0)
+        cell.layer.shadowRadius = 2.0
+        cell.layer.shadowOpacity = 1.0
+        cell.layer.masksToBounds = false;
+        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
     }
     
     private func getMovies() {
@@ -37,7 +51,7 @@ class ViewController: UIViewController {
                 self.movies = posts
                 print(posts)
                 DispatchQueue.main.async {
-                    self.myCollectionView.reloadData()
+                    self.collectionView.reloadData()
                 }
             case .failure(let error) :
                 print("Error: \(error.localizedDescription)")
@@ -46,40 +60,33 @@ class ViewController: UIViewController {
         }
     }
     
-    private func createCollectionView() {
-        myCollectionView.register(MoviePreviewCell.self, forCellWithReuseIdentifier: "MoviePreviewCell")
-        myCollectionView.delegate = self
-        myCollectionView.dataSource = self
-        view.addSubview(myCollectionView)
+    private func addSubViews() {
+        view.addSubview(collectionView)
     }
+    
     func getMoviesState() -> [Movie] {
         return movies
     }
 }
 
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         getMoviesState().count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MoviePreviewCell", for: indexPath) as? MoviePreviewCell else { return UICollectionViewCell() }
+        let cell = collectionView.dequeueReusableCell(withCellType: MoviePreviewCell.self, for: indexPath)
         cell.config(item: getMoviesState()[indexPath.row])
-        //presenter.getMovies()[indexPath.row]
-        cell.layer.shadowColor = UIColor.lightGray.cgColor
-        cell.layer.shadowOffset = CGSize(width:0,height: 2.0)
-        cell.layer.shadowRadius = 2.0
-        cell.layer.shadowOpacity = 1.0
-        cell.layer.masksToBounds = false;
-        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
+        cellConfig(cell: cell)
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: view.frame.width - 30, height: 200)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieDetails = MovieDetails(movieID: movies[indexPath.row].id)
+        let movieDetails = MovieDetailsViewController(movieID: movies[indexPath.row].id)
         self.navigationController?.pushViewController(movieDetails, animated: true)
     }
     

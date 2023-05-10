@@ -11,9 +11,4 @@ final class MoviesPresenter {
     func getMovies() -> [Movie] {
         movies
     }
-    func fwefw() -> Int {
-        //let tertet = getMovies()
-        //return tertet.count
-        getMovies().count
-    }
 }
