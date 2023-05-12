@@ -17,6 +17,8 @@
 		A262F14429F2FD840070AF87 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A262F14329F2FD840070AF87 /* MovieDetailsViewController.swift */; };
 		A270626E2A07E14E0046FDCB /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A270626D2A07E14E0046FDCB /* Consts.swift */; };
 		A297E7362A07E78E009D6F77 /* MoviesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A297E7352A07E78E009D6F77 /* MoviesPresenter.swift */; };
+		A2C96BB22A0E2DA200D7DDF5 /* MoviesPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C96BB12A0E2DA200D7DDF5 /* MoviesPresenterProtocol.swift */; };
+		A2C96BB42A0E9FCC00D7DDF5 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C96BB32A0E9FCC00D7DDF5 /* MoviesView.swift */; };
 		A2EDED3729DF1A1800111C03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EDED3629DF1A1800111C03 /* AppDelegate.swift */; };
 		A2EDED3929DF1A1800111C03 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EDED3829DF1A1800111C03 /* SceneDelegate.swift */; };
 		A2EDED3B29DF1A1800111C03 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EDED3A29DF1A1800111C03 /* MoviesViewController.swift */; };
@@ -38,6 +40,8 @@
 		A262F14329F2FD840070AF87 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		A270626D2A07E14E0046FDCB /* Consts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
 		A297E7352A07E78E009D6F77 /* MoviesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesPresenter.swift; sourceTree = "<group>"; };
+		A2C96BB12A0E2DA200D7DDF5 /* MoviesPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesPresenterProtocol.swift; sourceTree = "<group>"; };
+		A2C96BB32A0E9FCC00D7DDF5 /* MoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesView.swift; sourceTree = "<group>"; };
 		A2EDED3329DF1A1800111C03 /* EveningMovie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EveningMovie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2EDED3629DF1A1800111C03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2EDED3829DF1A1800111C03 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				A2EDED3A29DF1A1800111C03 /* MoviesViewController.swift */,
+				A2C96BB32A0E9FCC00D7DDF5 /* MoviesView.swift */,
 				A297E7342A07E580009D6F77 /* Cells */,
 			);
 			path = View;
@@ -147,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				A297E7352A07E78E009D6F77 /* MoviesPresenter.swift */,
+				A2C96BB12A0E2DA200D7DDF5 /* MoviesPresenterProtocol.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -270,6 +276,7 @@
 				A270626E2A07E14E0046FDCB /* Consts.swift in Sources */,
 				A2EDED3B29DF1A1800111C03 /* MoviesViewController.swift in Sources */,
 				A2EDED3729DF1A1800111C03 /* AppDelegate.swift in Sources */,
+				A2C96BB42A0E9FCC00D7DDF5 /* MoviesView.swift in Sources */,
 				A20AF93C29EDD72600A197ED /* NetworkManager.swift in Sources */,
 				A2233F5E2A0BBDB20047B1A7 /* DetailPresenter.swift in Sources */,
 				A2233F622A0C09C00047B1A7 /* MovieDetailsView.swift in Sources */,
@@ -280,6 +287,7 @@
 				A262F14429F2FD840070AF87 /* MovieDetailsViewController.swift in Sources */,
 				A2233F602A0BF7210047B1A7 /* UICollectionViewExt.swift in Sources */,
 				A297E7362A07E78E009D6F77 /* MoviesPresenter.swift in Sources */,
+				A2C96BB22A0E2DA200D7DDF5 /* MoviesPresenterProtocol.swift in Sources */,
 				A2233F642A0C0FBD0047B1A7 /* DetailPresenterProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

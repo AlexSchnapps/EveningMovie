@@ -64,12 +64,10 @@ class MovieDetailsViewController: UIViewController {
         presenter = DetailPresenter(view: self)
         presenter.getMovieDescription(movieID: movieID)
         settingsVC()
-        
     }
     
     private func addConstraints() {
         stackView.snp.makeConstraints {
-            //$0.edges.equalToSuperview().inset(10)
             $0.top.leading.equalToSuperview().inset(10)
             $0.trailing.bottom.equalToSuperview().offset(10)
             $0.width.equalTo(view.bounds.width - 20)
@@ -81,7 +79,6 @@ class MovieDetailsViewController: UIViewController {
         label.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(10)
-            //$0.bottom.lessThanOrEqualToSuperview().inset(10)
         }
     }
     

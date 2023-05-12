@@ -43,7 +43,7 @@ class NetworkManager {
     let decoder = JSONDecoder()
     let headers = [
         "X-RapidAPI-Key":
-            "86dc3f71bdmshc0432b056e31bfep14ffbfjsnd8eba6fe5afd"
+            "b5facba3afmsha4f010a357c61c3p1b34a4jsn5053c8d2f862"
     ]
     
     func request<T: Codable>(

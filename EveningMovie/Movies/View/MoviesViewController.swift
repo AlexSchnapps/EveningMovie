@@ -10,7 +10,9 @@ import SnapKit
 
 class MoviesViewController: UIViewController {
     
-    private lazy var collectionView: UICollectionView = {
+    private var presenter: MoviesPresenterProtocol!
+    
+    lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 10
@@ -24,14 +26,12 @@ class MoviesViewController: UIViewController {
         return collectionView
     }()
     
-    private var movies = [Movie]()
-    private let networkManager = NetworkManager()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = Constants.titleMovies
         addSubViews()
-        getMovies()
+        presenter = MoviesPresenter(view: self)
+        presenter.getMovies()
     }
     
     private func cellConfig(cell: UICollectionViewCell) {
@@ -43,40 +43,19 @@ class MoviesViewController: UIViewController {
         cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
     }
     
-    private func getMovies() {
-        networkManager.request(endPoint: .top100) { [weak self] (result: Result<[Movie], NetworkError>) in
-            guard let self = self else { return }
-            switch result {
-            case .success(let posts) :
-                self.movies = posts
-                print(posts)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            case .failure(let error) :
-                print("Error: \(error.localizedDescription)")
-                
-            }
-        }
-    }
-    
     private func addSubViews() {
         view.addSubview(collectionView)
-    }
-    
-    func getMoviesState() -> [Movie] {
-        return movies
     }
 }
 
 extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        getMoviesState().count
+        presenter.getMoviesState().count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withCellType: MoviePreviewCell.self, for: indexPath)
-        cell.config(item: getMoviesState()[indexPath.row])
+        cell.config(item: presenter.getMoviesState()[indexPath.row])
         cellConfig(cell: cell)
         return cell
     }
@@ -86,9 +65,16 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieDetails = MovieDetailsViewController(movieID: movies[indexPath.row].id)
+        let movieDetails = MovieDetailsViewController(movieID: presenter.getMoviesState()[indexPath.row].id)
         self.navigationController?.pushViewController(movieDetails, animated: true)
     }
     
 }
+
+extension MoviesViewController: MoviesView {
+    func updateView() {
+        collectionView.reloadData()
+    }
+}
+
 
