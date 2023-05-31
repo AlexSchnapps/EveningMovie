@@ -7,15 +7,19 @@
 
 import Foundation
 
+protocol DetailPresenterProtocol: AnyObject {
+    func getMovieDescription()
+}
+
 final class DetailPresenter {
     //MARK: - Dependencies
     private weak var view: MovieDetailsView?
     private let networkManager: NetworkManagerProtocol
     private let router: RouterProtocol
-   
+    
     //MARK: - Private Properties
     private let id: String
-   
+    
     //MARK: - Init
     init(
         view: MovieDetailsView,
@@ -35,7 +39,10 @@ extension DetailPresenter: DetailPresenterProtocol {
     func getMovieDescription() {
         networkManager.request(
             endPoint: .movieDescription(id)
-        ) { [weak self] (result: Result<Movie, NetworkError>) in
+        ) { [weak self] (
+            result: Result<Movie,
+            NetworkError>
+        ) in
             switch result {
             case .success(let post) :
                 print(post)

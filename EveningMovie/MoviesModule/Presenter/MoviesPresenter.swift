@@ -19,12 +19,12 @@ protocol MoviesViewProtocol: AnyObject {
 
 class MoviesPresenter {
     private let networkManager: NetworkManagerProtocol
-    private let view: MoviesView
+    private let view: MoviesViewProtocol
     private var movies = [Movie]()
     private let router: RouterProtocol
     
     init(
-        view: MoviesView,
+        view: MoviesViewProtocol,
         networkManager: NetworkManagerProtocol,
         router: RouterProtocol
     ) {
@@ -47,7 +47,7 @@ extension MoviesPresenter: MoviesPresenterProtocol {
             case .success(let posts) :
                 self.movies = posts
                 print(posts)
-                self.view.updateView()
+                self.view.success()
             case .failure(let error) :
                 print("Error: \(error.localizedDescription)")
                 

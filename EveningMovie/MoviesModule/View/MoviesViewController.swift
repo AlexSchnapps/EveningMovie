@@ -69,9 +69,13 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
 }
 
-extension MoviesViewController: MoviesView {
-    func updateView() {
+extension MoviesViewController: MoviesViewProtocol {
+    func success() {
         collectionView.reloadData()
+    }
+    
+    func failure(error: Error) {
+        print(error.localizedDescription)
     }
 }
 
