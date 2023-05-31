@@ -10,7 +10,7 @@ import SnapKit
 
 class MoviesViewController: UIViewController {
     
-    private var presenter: MoviesPresenterProtocol!
+    var presenter: MoviesPresenterProtocol!
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -30,7 +30,6 @@ class MoviesViewController: UIViewController {
         super.viewDidLoad()
         self.title = Constants.titleMovies
         addSubViews()
-        presenter = MoviesPresenter(view: self)
         presenter.getMovies()
     }
     
@@ -65,8 +64,7 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieDetails = MovieDetailsViewController(movieID: presenter.getMoviesState()[indexPath.row].id)
-        self.navigationController?.pushViewController(movieDetails, animated: true)
+        
     }
     
 }

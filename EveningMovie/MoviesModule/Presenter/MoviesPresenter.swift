@@ -5,13 +5,32 @@
 //  Created by Alex Schnapps on 07.05.2023.
 //
 
-final class MoviesPresenter {
-    private let networkManager = NetworkManager()
-    private let view: MoviesView?
+import Foundation
+
+protocol MoviesPresenterProtocol: AnyObject {
+    func getMoviesState() -> [Movie]
+    func getMovies()
+}
+
+protocol MoviesViewProtocol: AnyObject {
+    func success()
+    func failure(error: Error)
+}
+
+class MoviesPresenter {
+    private let networkManager: NetworkManagerProtocol
+    private let view: MoviesView
     private var movies = [Movie]()
+    private let router: RouterProtocol
     
-    init(view: MoviesView) {
+    init(
+        view: MoviesView,
+        networkManager: NetworkManagerProtocol,
+        router: RouterProtocol
+    ) {
         self.view = view
+        self.networkManager = networkManager
+        self.router = router
     }
     
 }
@@ -28,7 +47,7 @@ extension MoviesPresenter: MoviesPresenterProtocol {
             case .success(let posts) :
                 self.movies = posts
                 print(posts)
-                self.view?.updateView()
+                self.view.updateView()
             case .failure(let error) :
                 print("Error: \(error.localizedDescription)")
                 

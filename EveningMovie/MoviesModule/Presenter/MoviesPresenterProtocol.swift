@@ -7,9 +7,6 @@
 
 import Foundation
 
-protocol MoviesPresenterProtocol: AnyObject {
-    func getMoviesState() -> [Movie]
-    func getMovies()
-}
+
     
 

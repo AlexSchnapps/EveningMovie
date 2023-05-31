@@ -6,5 +6,5 @@
 //
 
 protocol DetailPresenterProtocol: AnyObject {
-    func getMovieDescription(movieID: String)
+    func getMovieDescription()
 }

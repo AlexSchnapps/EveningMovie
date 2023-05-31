@@ -7,6 +7,13 @@
 
 import Foundation
 
+protocol NetworkManagerProtocol {
+    func request<T: Codable>(
+        endPoint: Hosts,
+        completion: @escaping (Result<T, NetworkError>) -> ()
+    )
+}
+
 enum NetworkError: Error {
     case custom(String)
     
@@ -36,7 +43,7 @@ enum Hosts {
     }
 }
 
-class NetworkManager {
+class NetworkManager: NetworkManagerProtocol {
     
     let sessionConfig = URLSessionConfiguration.default
     let session = URLSession.shared

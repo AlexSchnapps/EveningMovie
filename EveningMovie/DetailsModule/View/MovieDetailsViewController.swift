@@ -10,8 +10,7 @@ import SnapKit
 
 class MovieDetailsViewController: UIViewController {
     
-    private let movieID: String
-    private var presenter: DetailPresenterProtocol!
+    var presenter: DetailPresenterProtocol!
     
     private lazy var scrollView: UIScrollView = {
         var scrollView = UIScrollView()
@@ -50,19 +49,9 @@ class MovieDetailsViewController: UIViewController {
         return label
     }()
     
-    init(movieID: String) {
-        self.movieID = movieID
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = DetailPresenter(view: self)
-        presenter.getMovieDescription(movieID: movieID)
+        presenter.getMovieDescription()
         settingsVC()
     }
     
