@@ -10,6 +10,7 @@ import Foundation
 protocol MoviesPresenterProtocol: AnyObject {
     func getMoviesState() -> [Movie]
     func getMovies()
+    func showDetails(index: Int)
 }
 
 protocol MoviesViewProtocol: AnyObject {
@@ -32,10 +33,14 @@ class MoviesPresenter {
         self.networkManager = networkManager
         self.router = router
     }
-    
 }
 
 extension MoviesPresenter: MoviesPresenterProtocol {
+    func showDetails(index: Int) {
+        let id = movies[index].id
+        router.showDetail(id: id)
+    }
+    
     func getMoviesState() -> [Movie] {
         movies
     }
